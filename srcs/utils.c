@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:13:58 by aucaland          #+#    #+#             */
-/*   Updated: 2023/02/23 11:19:06 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:13:43 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,31 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		n = n * 10 + (str[i++] - '0');
 	return ((int)(n * sign));
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	memset(s, 0, n);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+	size_t	tot;
+
+	if (size && count > SIZE_MAX / size)
+		return (0);
+	tot = size * count;
+	ptr = malloc(sizeof(char) * tot);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, tot);
+	return (ptr);
+}
+
+void	*ft_free(void *ptr)
+{
+	if (ptr)
+		free(ptr);
+	return (NULL);
 }
