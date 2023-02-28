@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   check_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 14:13:46 by aucaland          #+#    #+#             */
-/*   Updated: 2023/02/28 14:57:15 by aurel            ###   ########.fr       */
+/*   Created: 2023/02/28 14:43:55 by aurel             #+#    #+#             */
+/*   Updated: 2023/02/28 15:03:36 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/philosophers.h"
 
-void	exit_philo(t_parent *parent, char *msg)
+void	check_invalid_args(int argc, char **argv)
 {
-	if (parent)
-	{
-		while (parent->philo)
-		{
-			parent->philo = ft_free(parent->philo);
-			parent->philo++;
-		}
-	}
-	if (msg)
-		printf("%s", msg);
-	exit(EXIT_SUCCESS);
+	if (ft_atoi(argv[1]) < 1)
+		exit_philo(NULL, NBR_PHILOS);
+	if (argc == 6 && ft_atoi(argv[5]) < 0)
+		exit_philo(NULL, NBR_MEAL);
 }

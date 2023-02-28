@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incs/philosophers.h"
+#include <stdint.h>
 
 static int	is_space(const char str)
 {

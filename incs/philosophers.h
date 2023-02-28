@@ -8,8 +8,11 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-# define INV_ARGUMENTS	"It work like this : [number of philo] [time to die] \
+# define NBR_ARGUMENTS	"It work like this : [number of philo] [time to die] \
 [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
+# define NBR_PHILOS		"[Number of philo] must be a positiv int"
+# define FAILED_ALLOC	"Allocation failed"
+# define NBR_MEAL		"Philos can't eat less than 0 time, obviously"
 
 # ifndef T_ERROR
 # define T_ERROR
@@ -40,19 +43,22 @@ typedef enum e_bool
 typedef struct s_philo
 {
 	struct s_parent	*parent_back;
-	pthread_t	fork;
+	int 		own_fork;
+	int 		lfork;
 	t_bool		is_alive;
+	t_bool		is_sleeping;
+	t_bool		is_eating;
 	int			philo_nbr;
 }				t_philo;
 
 # endif
 
-
-
 typedef struct s_parent
 {
-	t_philo		*philo;
-	int			number_of_philo;
+	t_philo			*philo;
+	int				number_of_philo;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	print;
 }				t_parent;
 
 //		UTILS 			////////////////////////////////////////////////////////
@@ -62,9 +68,11 @@ void		*ft_calloc(size_t count, size_t size);
 void		*ft_free(void *ptr);
 
 //		EXIT			////////////////////////////////////////////////////////
-void		exit_malloc(t_parent *parent);
+void		exit_philo(t_parent *parent, char *msg);
 
 //		PHILOSOPHERS	////////////////////////////////////////////////////////
 
+//		CHECK_INV_ARGS	////////////////////////////////////////////////////////
+void		check_invalid_args(int argc, char **argv);
 
 #endif //PHILOSOPHERS_H
