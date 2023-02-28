@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/02/28 15:00:12 by aurel            ###   ########.fr       */
+/*   Updated: 2023/02/28 15:50:58 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ t_error	philo_spawn(t_parent *parent)
 	return (SUCCESS);
 }
 
+t_error	parent_init(t_parent *parent, char **argv, int argc)
+{
+	parent->number_of_philo = ft_atoi(argv[1]);
+	parent->time_to_die = ft_atoi(argv[2]);
+	parent->time_to_eat = ft_atoi(argv[3]);
+	parent->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		parent->meals_min = ft_atoi(argv[5]);
+	parent->fork = ft_calloc(parent->number_of_philo, sizeof(pthread_mutex_t));
+	if (!parent->fork)
+		return (MALLOC_ERROR);
+	return (SUCCESS);
+}
+
 void	philo_init(t_parent *parent)
 {
 	int	i;
@@ -54,6 +68,12 @@ void	philo_init(t_parent *parent)
 	}
 }
 
+t_error	init_threads(t_parent *parent)
+{
+	(void)parent;
+	return (SUCCESS);
+}
+
 int main(int argc, char **argv)
 {
 	t_parent	parent;
@@ -62,10 +82,12 @@ int main(int argc, char **argv)
 		exit_philo(NULL, NBR_ARGUMENTS);
 	check_invalid_args(argc, argv);
 	ft_bzero(&parent, sizeof(t_parent));
-	parent.number_of_philo = ft_atoi(argv[1]);
+	if (parent_init(&parent, argv, argc) == MALLOC_ERROR)
+		exit_philo(&parent, FAILED_ALLOC);
 	if (philo_spawn(&parent) == MALLOC_ERROR)
 		exit_philo(&parent, FAILED_ALLOC);
 	philo_init(&parent);
+	init_threads(&parent);
 
 
 

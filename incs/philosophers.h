@@ -7,12 +7,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <stdlib.h>
-
-# define NBR_ARGUMENTS	"It work like this : [number of philo] [time to die] \
-[time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
-# define NBR_PHILOS		"[Number of philo] must be a positiv int"
-# define FAILED_ALLOC	"Allocation failed"
-# define NBR_MEAL		"Philos can't eat less than 0 time, obviously"
+#include "errors.h"
 
 # ifndef T_ERROR
 # define T_ERROR
@@ -37,12 +32,8 @@ typedef enum e_bool
 
 # endif
 
-# ifndef T_PHILO
-#define T_PHILO
-
 typedef struct s_philo
 {
-	struct s_parent	*parent_back;
 	int 		own_fork;
 	int 		lfork;
 	t_bool		is_alive;
@@ -51,12 +42,14 @@ typedef struct s_philo
 	int			philo_nbr;
 }				t_philo;
 
-# endif
-
 typedef struct s_parent
 {
 	t_philo			*philo;
 	int				number_of_philo;
+	int 			time_to_die;
+	int 			time_to_eat;
+	int 			time_to_sleep;
+	int 			meals_min;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 }				t_parent;
