@@ -21,24 +21,25 @@ typedef enum e_error
 
 # endif
 
-# ifndef T_BOOL
-# define T_BOOL
-
-typedef enum e_bool
+typedef enum e_state
 {
-	FALSE = 0,
-	TRUE,
-}			t_bool;
+	TAKING,
+	EATING,
+	SLEEPING,
+	THINKING,
+	WAITING,
+	DEAD,
+}			t_state;
 
-# endif
-
+typedef struct s_parent	t_parent;
 typedef struct s_philo
 {
+	t_parent	*parent_call;
 	int 		own_fork;
 	int 		lfork;
-	t_bool		is_alive;
-	t_bool		is_sleeping;
-	t_bool		is_eating;
+	int 		last_eat;
+	int 		eat_count;
+	t_state		state;
 	int			philo_nbr;
 }				t_philo;
 
@@ -50,7 +51,9 @@ typedef struct s_parent
 	int 			time_to_eat;
 	int 			time_to_sleep;
 	int 			meals_min;
+	t_state			state;
 	pthread_mutex_t	*fork;
+	pthread_t		*threads;
 	pthread_mutex_t	print;
 }				t_parent;
 
