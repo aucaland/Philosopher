@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:48:17 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/01 14:29:36 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/01 16:57:56 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ die] [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
 # define THINKING_MSG		"in thinking"
 # define EATING_MSG			"is eating"
 # define TAKING_FORK_MSG	"has taken a fork"
+# define DYING_MSG			"is dead"
 
 # define BOTH_FORKS			10
 # define LEFT_FORK			11
-# define RIGHT_FORK			12
+# define OWN_FORK			12
+
 #endif //ERRORS_H

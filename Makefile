@@ -2,7 +2,7 @@ NAME				= philo
 SRC_DIR				= srcs
 OBJ_DIR				= objs
 H_DIR				= incs
-SRC_NAME			= utils.c philosopher.c check_params.c exit.c
+SRC_NAME			= utils.c philosopher.c check_params.c exit.c philo_states.c
 INCS_NAME			= philosophers.h
 
 
@@ -38,7 +38,7 @@ endif
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-	@$(CC) $^ -o $(NAME) $(CFLAGS) $(CH_FLAG)
+	@$(CC) $^ -o $(NAME) -pthread $(CFLAGS) $(CH_FLAG)
 	@printf %b	"\n"
 	@printf %b  "\033[1;35m-[$(NAME)]__Edit/Create .o in \033[0m  \033[0;32m[OK]\033[0m\n"
 	@printf %b  "\r"
