@@ -48,15 +48,15 @@ typedef struct s_philo
 typedef struct s_parent
 {
 	t_philo			*philo;
-	int				number_of_philo;
-	unsigned long long int 			time_to_die;
-	unsigned long long int 			time_to_eat;
-	unsigned long long int 			time_to_sleep;
-	int 			must_eat;
 	t_state			state;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 	pthread_t		*threads;
+	int				number_of_philo;
+	int 			must_eat;
+	unsigned long long int 			time_to_die;
+	unsigned long long int 			time_to_eat;
+	unsigned long long int 			time_to_sleep;
 }				t_parent;
 
 //		UTILS 			////////////////////////////////////////////////////////
@@ -68,11 +68,12 @@ void		ft_usleep(unsigned long long time);
 unsigned long long int timer();
 
 //		EXIT			////////////////////////////////////////////////////////
-void		exit_philo(t_parent *parent, char *msg);
+void		exit_philo(t_parent *parent, t_philo **philo, char *msg);
 
 //		PHILOSOPHERS	////////////////////////////////////////////////////////
 void		print(t_philo *philo, t_state	state);
 void		unlock(int which_forks, t_parent *parent, t_philo *philo);
+void		routine(t_philo *philo);
 
 //		PHILO_STATES	////////////////////////////////////////////////////////
 void		sleeping(t_philo *philo);
@@ -80,7 +81,21 @@ void		eating(t_philo *philo);
 void		thinking(t_philo *philo);
 void		take_fork(t_philo *philo);
 void		check_death_before_silence(t_philo *philo, t_state state);
+char		*state_msg(t_state state);
+void		dying(t_philo *philo, unsigned long long time_to_wait);
 //		CHECK_INV_ARGS	////////////////////////////////////////////////////////
 void		check_invalid_args(int argc, char **argv);
 
+//		INIT			////////////////////////////////////////////////////////
+void		philo_spawn(t_philo	**philo, t_parent *parent);
+void		parent_init(t_parent *parent, t_philo *philo, char **argv, int
+argc);
+void		philo_init(t_parent *parent, t_philo *philo);
+void		init_threads(t_parent *parent, t_philo *philo);
+void		init_mutex(t_parent *parent);
+
+//		GET				////////////////////////////////////////////////////////
+unsigned long long	time_to_eat(t_philo *philo);
+unsigned long long	time_to_die(t_philo *philo);
+unsigned long long	time_to_sleep(t_philo *philo);
 #endif //PHILOSOPHERS_H

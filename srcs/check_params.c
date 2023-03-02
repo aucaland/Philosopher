@@ -15,7 +15,7 @@
 void	check_invalid_args(int argc, char **argv)
 {
 	if (ft_atoi(argv[1]) < 1)
-		exit_philo(NULL, NBR_PHILOS);
+		exit_philo(NULL, NULL, NBR_PHILOS);
 	if (argc == 6 && ft_atoi(argv[5]) < 0)
-		exit_philo(NULL, NBR_MEAL);
+		exit_philo(NULL, NULL, NBR_MEAL);
 }

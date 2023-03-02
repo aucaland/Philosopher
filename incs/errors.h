@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:48:17 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/01 16:57:56 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/02 10:52:51 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ die] [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
 # define FAILED_THREAD		"Failed to create a thread"
 
 # define SLEEPING_MSG		"is sleeping"
-# define THINKING_MSG		"in thinking"
+# define THINKING_MSG		"is thinking"
 # define EATING_MSG			"is eating"
 # define TAKING_FORK_MSG	"has taken a fork"
-# define DYING_MSG			"is dead"
+# define DYING_MSG			"died"
 
 # define BOTH_FORKS			10
 # define LEFT_FORK			11

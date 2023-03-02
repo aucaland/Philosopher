@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   get.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 14:13:46 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/02 11:45:50 by aurel            ###   ########.fr       */
+/*   Created: 2023/03/02 10:30:53 by aurel             #+#    #+#             */
+/*   Updated: 2023/03/02 10:50:23 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/philosophers.h"
 
-void	exit_philo(t_parent *parent, t_philo **philo, char *msg)
+unsigned long long time_to_eat(t_philo *philo)
 {
-	(void)philo;
-	if (parent)
-	{
-		parent->philo = ft_free(parent->philo);
-		parent->fork = ft_free(parent->fork);
-		parent->threads = ft_free(parent->threads);
-	}
-	if (msg)
-		printf("%s", msg);
-	exit(EXIT_SUCCESS);
+	return (philo->parent_call->time_to_eat);
+}
+
+unsigned long long time_to_die(t_philo *philo)
+{
+	return (philo->parent_call->time_to_die);
+
+}
+
+unsigned long long time_to_sleep(t_philo *philo)
+{
+	return (philo->parent_call->time_to_sleep);
 }
