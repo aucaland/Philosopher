@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/02 13:39:57 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 11:40:06 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	sleeping(t_philo *philo)
 
 void	take_fork(t_philo *philo)
 {
-	if (philo->state == DEAD)
+	if (philo->parent_call->state == DEAD)
 		return ;
 	pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
 	print(philo, philo->state);
-	if (philo->state == DEAD)
+	if (philo->parent_call->state == DEAD)
 	{
 		unlock(OWN_FORK, philo->parent_call, philo);
 		return;
@@ -73,11 +73,13 @@ void	dying(t_philo *philo, unsigned long long int time_to_wait)
 {
 	ft_usleep(time_to_wait);
 	if (philo->parent_call->state == DEAD)
+	{
 		return ;
+	}
+	pthread_mutex_lock(&philo->parent_call->mutex_dead);
 	philo->parent_call->state = DEAD;
 	philo->state = DEAD;
-	pthread_mutex_lock(&philo->parent_call->print);
-	printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));
-	ft_usleep(time_to_die(philo) + 1);
-	pthread_mutex_unlock(&philo->parent_call->print);
+	philo->parent_call->is_dead = philo->philo_nbr;
+	pthread_mutex_unlock(&philo->parent_call->mutex_dead);
+
 }

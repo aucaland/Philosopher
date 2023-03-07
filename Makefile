@@ -26,7 +26,7 @@ CH_FLAG			= -Iincs
 D = 0
 
 ifeq ($(D), 1)
-	CC += -fsanitize=address -g3
+	CC += -fsanitize=thread -g3
 	MODE = printf %b "\033[0;31m MODE DEBUG SANITIZE \033[0m"
 endif
 ifneq ($(D), 1)

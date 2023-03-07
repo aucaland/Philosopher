@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/02 13:42:08 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 11:36:37 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,35 @@ char	*state_msg(t_state state)
 	return (NULL);
 }
 
-void	check_death(t_philo *philo)
+t_bool	check_death(t_parent *parent)
+{
+	pthread_mutex_lock(&parent->mutex_dead);
+	if (parent->state == DEAD)
+	{
+		printf("%llu %d %s\n", timer(), parent->is_dead, state_msg(DEAD));
+		pthread_mutex_unlock(&parent->mutex_dead);
+		return (TRUE);
+	}
+	pthread_mutex_unlock(&parent->mutex_dead);
+	return (FALSE);
+}
+
+void	check_end(t_parent *parent)
+{
+	while (TRUE)
+	{
+		pthread_mutex_lock(&parent->print);
+		if (check_death(parent) == TRUE)
+		{
+			pthread_mutex_unlock(&parent->print);
+			return ;
+		}
+		pthread_mutex_unlock(&parent->print);
+		usleep(100);
+	}
+}
+
+void	check_death_in_print(t_philo *philo)
 {
 	if (philo->parent_call->state == DEAD)
 		philo->state = philo->parent_call->state;
@@ -52,9 +80,8 @@ void	check_death(t_philo *philo)
 		if (timer() - philo->last_eat >= time_to_die(philo))
 		{
 			philo->parent_call->state = DEAD;
+			philo->parent_call->is_dead = philo->philo_nbr;
 			philo->state = DEAD;
-			printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));
-			ft_usleep(time_to_die(philo));
 		}
 	}
 }
@@ -62,7 +89,7 @@ void	check_death(t_philo *philo)
 void	print(t_philo *philo, t_state	state)
 {
 	pthread_mutex_lock(&philo->parent_call->print);
-	check_death(philo);
+	check_death_in_print(philo);
 	if (state == EATING)
 	{
 		philo->last_eat = timer();
@@ -77,17 +104,20 @@ void	check_death_before_silence(t_philo *philo, t_state state)
 {
 	unsigned long long	time_to_wait;
 	unsigned long long	time_without_eat;
+	unsigned long long	get_time;
+
+	get_time = timer();
 	if (state == EATING)
 	{
-		time_without_eat = timer() - philo->last_eat + time_to_eat(philo);
-		time_to_wait = time_without_eat - timer() - philo->last_eat;
+		time_without_eat = get_time - philo->last_eat + time_to_eat(philo);
+		time_to_wait = time_without_eat - get_time - philo->last_eat;
 		if (time_without_eat > time_to_die(philo))
 			dying(philo, time_to_wait);
 	}
 	else if (state == SLEEPING)
 	{
-		time_without_eat = timer() - philo->last_eat + time_to_sleep(philo);
-		time_to_wait = time_without_eat - timer() - philo->last_eat;
+		time_without_eat = get_time - philo->last_eat + time_to_sleep(philo);
+		time_to_wait = time_without_eat - get_time - philo->last_eat;
 //		dprintf(2, "timer = %llu && without == %llu &&  towait = %llu\n", timer
 //		(),time_without_eat,  time_to_wait);
 		if (time_without_eat > time_to_die(philo))
@@ -99,21 +129,33 @@ void	check_death_before_silence(t_philo *philo, t_state state)
 
 void	routine(t_philo *philo)
 {
-	while ((philo->eat_count != philo->parent_call->must_eat) && philo->parent_call->state !=
-			DEAD)
+	while (TRUE)
 	{
-		if (philo->state == THINKING)
+		pthread_mutex_lock(&philo->parent_call->mutex_dead);
+		if (philo->eat_count != philo->parent_call->must_eat &&
+			philo->parent_call->state != DEAD)
 		{
-			thinking(philo);
-			if (philo->philo_nbr % 2 == 0)
-				usleep(philo->parent_call->number_of_philo * 100);
+			pthread_mutex_unlock(&philo->parent_call->mutex_dead);
+			if (philo->state == THINKING && philo->parent_call->state !=
+											DEAD)
+			{
+				thinking(philo);
+				if (philo->philo_nbr % 2 == 0)
+					usleep(100);
+			} else if (philo->state == WAITING && philo->parent_call->state !=
+												  DEAD)
+				take_fork(philo);
+			else if (philo->state == EATING && philo->parent_call->state !=
+											   DEAD)
+				eating(philo);
+			else if (philo->state == SLEEPING && philo->parent_call->state !=
+												 DEAD)
+				sleeping(philo);
+		} else
+		{
+			pthread_mutex_unlock(&philo->parent_call->mutex_dead);
+			return;
 		}
-		else if (philo->state == WAITING)
-			take_fork(philo);
-		else if (philo->state == EATING)
-			eating(philo);
-		else if (philo->state == SLEEPING)
-			sleeping(philo);
 	}
 }
 
@@ -172,6 +214,7 @@ int main(int argc, char **argv)
 	philo_init(&parent, philo);
 	init_mutex(&parent);
 	init_threads(&parent, philo);
+	check_end(&parent);
 	wait_threads(&parent);
 	destroy_threads(&parent);
 	exit_philo(&parent, &philo, NULL);

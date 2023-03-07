@@ -23,6 +23,12 @@ typedef enum e_error
 
 # endif
 
+typedef enum e_bool
+{
+	FALSE,
+	TRUE,
+}			t_bool;
+
 typedef enum e_state
 {
 	TAKING,
@@ -54,6 +60,8 @@ typedef struct s_parent
 	pthread_t		*threads;
 	int				number_of_philo;
 	int 			must_eat;
+	int 			is_dead;
+	pthread_mutex_t mutex_dead;
 	unsigned long long int 			time_to_die;
 	unsigned long long int 			time_to_eat;
 	unsigned long long int 			time_to_sleep;
@@ -83,6 +91,7 @@ void		take_fork(t_philo *philo);
 void		check_death_before_silence(t_philo *philo, t_state state);
 char		*state_msg(t_state state);
 void		dying(t_philo *philo, unsigned long long time_to_wait);
+
 //		CHECK_INV_ARGS	////////////////////////////////////////////////////////
 void		check_invalid_args(int argc, char **argv);
 
