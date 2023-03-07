@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/07 16:16:10 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 18:08:58 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	eating(t_philo *philo)
 	if (philo->state != DEAD)
 	{
 		ft_usleep(philo->parent_call->time_to_eat);
+		unlock(BOTH_FORKS, philo->parent_call, philo, odd);
 		philo->state = SLEEPING;
 	}
-	unlock(BOTH_FORKS, philo->parent_call, philo, odd);
 }
 
 void	sleeping(t_philo *philo)
@@ -96,9 +96,14 @@ void	dying(t_philo *philo, unsigned long long int time_to_wait)
 //	if (philo->parent_call->state == DEAD)
 //		return ;
 	ft_usleep(time_to_wait);
+	pthread_mutex_lock(&philo->parent_call->state_mutex);
 	if (philo->parent_call->state == DEAD)
+	{
+		pthread_mutex_unlock(&philo->parent_call->state_mutex);
 		return ;
+	}
 	philo->parent_call->state = DEAD;
+	pthread_mutex_unlock(&philo->parent_call->state_mutex);
 	philo->state = DEAD;
 	pthread_mutex_lock(&philo->parent_call->print);
 	printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));

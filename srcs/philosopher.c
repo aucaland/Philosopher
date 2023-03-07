@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/07 16:39:12 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 18:20:23 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,21 @@ char	*state_msg(t_state state)
 
 void	check_death(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->parent_call->state_mutex);
 	if (philo->parent_call->state == DEAD)
-		philo->state = philo->parent_call->state;
-	else
 	{
-		if (timer() - philo->last_eat >= time_to_die(philo) &&
-		philo->parent_call->state != DEAD)
-		{
-			philo->parent_call->state = DEAD;
-			philo->state = DEAD;
-			printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));
-			//ft_usleep(time_to_die(philo));
-		}
+		philo->state = philo->parent_call->state;
+		pthread_mutex_unlock(&philo->parent_call->state_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->parent_call->state_mutex);
+	if (timer() - philo->last_eat >= time_to_die(philo) &&
+	philo->parent_call->state != DEAD)
+	{
+		philo->parent_call->state = DEAD;
+		philo->state = DEAD;
+		printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));
+		//ft_usleep(time_to_die(philo));
 	}
 }
 
@@ -70,7 +73,8 @@ void	print(t_philo *philo, t_state	state)
 		philo->eat_count++;
 	}
 	if (philo->state != DEAD)
-		printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(state));
+		printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg
+		(state));
 	pthread_mutex_unlock(&philo->parent_call->print);
 }
 
@@ -81,14 +85,14 @@ void	check_death_before_silence(t_philo *philo, t_state state)
 	if (state == EATING)
 	{
 		time_without_eat = timer() - philo->last_eat + time_to_eat(philo);
-		time_to_wait = time_without_eat - timer() - philo->last_eat;
+		time_to_wait = time_to_die(philo) - (timer() - philo->last_eat);
 		if (time_without_eat > time_to_die(philo))
 			dying(philo, time_to_wait);
 	}
 	else if (state == SLEEPING)
 	{
 		time_without_eat = timer() - philo->last_eat + time_to_sleep(philo);
-		time_to_wait = time_without_eat - timer() - philo->last_eat;
+		time_to_wait = time_to_die(philo) - (timer() - philo->last_eat);
 //		dprintf(2, "timer = %llu && without == %llu &&  towait = %llu\n", timer
 //		(),time_without_eat,  time_to_wait);
 		if (time_without_eat > time_to_die(philo))
@@ -194,13 +198,14 @@ void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 			pthread_mutex_lock(&parent->print);
 			if (timer() - philo[i].last_eat >= time_to_die(philo))
 			{
-				if (parent->state == DEAD)
+				if (parent->state == DEAD || parent->must_eat == philo[i].eat_count)
 				{
 					pthread_mutex_unlock(&parent->print);
 					return ;
 				}
 				parent->state = DEAD;
-				printf("%llu %d %s\n", timer(), philo[i].philo_nbr, state_msg(DEAD));
+				printf("%llu %d %s\n", timer(), philo[i].philo_nbr,
+					   state_msg(DEAD));
 				running = FALSE ;
 			}
 			pthread_mutex_unlock(&parent->print);

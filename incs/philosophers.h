@@ -46,7 +46,7 @@ typedef struct s_philo
 	int 		own_fork;
 	int 		lfork;
 	int 		rfork;
-	int 		last_eat;
+	unsigned long long 		last_eat;
 	int 		eat_count;
 	t_state		state;
 	int			philo_nbr;
