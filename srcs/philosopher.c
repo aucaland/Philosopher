@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/02 13:42:08 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 16:39:12 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	check_death(t_philo *philo)
 		philo->state = philo->parent_call->state;
 	else
 	{
-		if (timer() - philo->last_eat >= time_to_die(philo))
+		if (timer() - philo->last_eat >= time_to_die(philo) &&
+		philo->parent_call->state != DEAD)
 		{
 			philo->parent_call->state = DEAD;
 			philo->state = DEAD;
 			printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));
-			ft_usleep(time_to_die(philo));
+			//ft_usleep(time_to_die(philo));
 		}
 	}
 }
@@ -99,34 +100,51 @@ void	check_death_before_silence(t_philo *philo, t_state state)
 
 void	routine(t_philo *philo)
 {
-	while ((philo->eat_count != philo->parent_call->must_eat) && philo->parent_call->state !=
+	while ((philo->eat_count != philo->parent_call->must_eat) && philo->state !=
 			DEAD)
 	{
 		if (philo->state == THINKING)
 		{
 			thinking(philo);
 			if (philo->philo_nbr % 2 == 0)
-				usleep(philo->parent_call->number_of_philo * 100);
+				usleep(100);
 		}
-		else if (philo->state == WAITING)
+		if (philo->state == WAITING)
 			take_fork(philo);
-		else if (philo->state == EATING)
+		if (philo->state == EATING)
 			eating(philo);
-		else if (philo->state == SLEEPING)
+		if (philo->state == SLEEPING)
 			sleeping(philo);
 	}
 }
 
-void	unlock(int which_forks, t_parent *parent, t_philo *philo)
+void	unlock(int which_forks, t_parent *parent, t_philo *philo, t_bool odd)
 {
 	if (which_forks == LEFT_FORK)
 		pthread_mutex_unlock(&parent->fork[philo->lfork]);
+	else if (which_forks == RIGHT_FORK)
+		pthread_mutex_unlock(&parent->fork[philo->rfork]);
 	else if (which_forks == OWN_FORK)
 		pthread_mutex_unlock(&parent->fork[philo->own_fork]);
 	else if (which_forks == BOTH_FORKS)
 	{
-		pthread_mutex_unlock(&parent->fork[philo->lfork]);
-		pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+		if (odd == FALSE)
+		{
+//			dprintf(1, "1 for [%d]\n", philo->philo_nbr);
+			pthread_mutex_unlock(&parent->fork[philo->rfork]);
+//			dprintf(1, "2 for [%d]\n", philo->philo_nbr);
+			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+//			dprintf(1, "3 for [%d]\n", philo->philo_nbr);
+		}
+		else
+		{
+//			dprintf(1, "4 for [%d]\n", philo->philo_nbr);
+			pthread_mutex_unlock(&parent->fork[philo->lfork]);
+//			dprintf(1, "5 for [%d]\n", philo->philo_nbr);
+			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+//			dprintf(1, "6 for [%d]\n", philo->philo_nbr);
+		}
+
 	}
 }
 
@@ -139,6 +157,11 @@ void	wait_threads(t_parent *parent)
 	i = 0;
 	while (i < parent->number_of_philo)
 	{
+//		if (parent->state == DEAD)
+//		{
+//			pthread_detach(parent->threads[i]);
+//			continue;
+//		}
 		pthread_join(parent->threads[i], NULL);
 		i++;
 	}
@@ -157,6 +180,35 @@ void	destroy_threads(t_parent *parent)
 	}
 }
 
+void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
+{
+	int	i;
+	t_bool	running;
+
+	running = TRUE;
+	while (running)
+	{
+		i = -1;
+		while (++i < parent->number_of_philo)
+		{
+			pthread_mutex_lock(&parent->print);
+			if (timer() - philo[i].last_eat >= time_to_die(philo))
+			{
+				if (parent->state == DEAD)
+				{
+					pthread_mutex_unlock(&parent->print);
+					return ;
+				}
+				parent->state = DEAD;
+				printf("%llu %d %s\n", timer(), philo[i].philo_nbr, state_msg(DEAD));
+				running = FALSE ;
+			}
+			pthread_mutex_unlock(&parent->print);
+		}
+		usleep(10);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	t_parent	parent;
@@ -172,6 +224,7 @@ int main(int argc, char **argv)
 	philo_init(&parent, philo);
 	init_mutex(&parent);
 	init_threads(&parent, philo);
+	check_while_waiting_fork(&parent, philo);
 	wait_threads(&parent);
 	destroy_threads(&parent);
 	exit_philo(&parent, &philo, NULL);

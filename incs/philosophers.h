@@ -23,6 +23,12 @@ typedef enum e_error
 
 # endif
 
+typedef enum e_bool
+{
+	FALSE,
+	TRUE,
+}			t_bool;
+
 typedef enum e_state
 {
 	TAKING,
@@ -39,6 +45,7 @@ typedef struct s_philo
 	t_parent	*parent_call;
 	int 		own_fork;
 	int 		lfork;
+	int 		rfork;
 	int 		last_eat;
 	int 		eat_count;
 	t_state		state;
@@ -51,6 +58,7 @@ typedef struct s_parent
 	t_state			state;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
+	pthread_mutex_t	state_mutex;
 	pthread_t		*threads;
 	int				number_of_philo;
 	int 			must_eat;
@@ -72,7 +80,8 @@ void		exit_philo(t_parent *parent, t_philo **philo, char *msg);
 
 //		PHILOSOPHERS	////////////////////////////////////////////////////////
 void		print(t_philo *philo, t_state	state);
-void		unlock(int which_forks, t_parent *parent, t_philo *philo);
+void		unlock(int which_forks, t_parent *parent, t_philo *philo, t_bool
+ODD);
 void		routine(t_philo *philo);
 
 //		PHILO_STATES	////////////////////////////////////////////////////////

@@ -31,6 +31,7 @@ die] [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
 
 # define BOTH_FORKS			10
 # define LEFT_FORK			11
-# define OWN_FORK			12
+# define RIGHT_FORK			12
+# define OWN_FORK			13
 
 #endif //ERRORS_H

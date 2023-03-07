@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 10:08:04 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/02 11:42:20 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 16:38:34 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ void	philo_init(t_parent *parent, t_philo *philo)
 			philo[i].lfork = 0;
 		else
 			philo[i].lfork = i + 1;
+		if (i == 0)
+			philo[i].rfork = parent->number_of_philo - 1;
+		else
+			philo[i].rfork = i - 1;
+//		dprintf(2, "[%d] == lfork:%d, rfork:%d, ownfork:%d\n",philo[i]
+//		.philo_nbr,
+//		philo[i]
+//		.lfork, philo[i]
+//		.rfork, philo[i].own_fork);
 		philo[i].state = THINKING;
 		philo[i].philo_nbr = i;
 		philo[i].last_eat = 0;
@@ -77,6 +86,7 @@ void	init_mutex(t_parent *parent)
 
 	i = -1;
 	pthread_mutex_init(&parent->print, NULL);
+	pthread_mutex_init(&parent->state_mutex, NULL);
 	while (++i < parent->number_of_philo)
 		pthread_mutex_init(&parent->fork[i], NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/02 13:39:57 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/07 16:16:10 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	thinking(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
+	int odd;
+
+	odd = TRUE;
+	if (philo->philo_nbr % 2 == 0)
+		odd = FALSE;
 	print(philo, philo->state);
 	check_death_before_silence(philo, philo->state);
 	if (philo->state != DEAD)
@@ -28,7 +33,7 @@ void	eating(t_philo *philo)
 		ft_usleep(philo->parent_call->time_to_eat);
 		philo->state = SLEEPING;
 	}
-	unlock(BOTH_FORKS, philo->parent_call, philo);
+	unlock(BOTH_FORKS, philo->parent_call, philo, odd);
 }
 
 void	sleeping(t_philo *philo)
@@ -46,31 +51,50 @@ void	take_fork(t_philo *philo)
 {
 	if (philo->state == DEAD)
 		return ;
-	pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+	t_bool	odd;
+
+	odd = TRUE;
+	if (philo->philo_nbr % 2 == 0)
+		odd = FALSE;
+	if (odd == FALSE)
+		pthread_mutex_lock(&philo->parent_call->fork[philo->rfork]);
+	else
+		pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
 	print(philo, philo->state);
 	if (philo->state == DEAD)
 	{
-		unlock(OWN_FORK, philo->parent_call, philo);
+		if (odd == FALSE)
+			unlock(RIGHT_FORK, philo->parent_call, philo, odd);
+		else
+			unlock(OWN_FORK, philo->parent_call, philo, odd);
 		return;
 	}
 	else if (philo->parent_call->number_of_philo == 1)
 	{
 		philo->state = DEAD;
-		unlock(OWN_FORK, philo->parent_call, philo);
+		if (odd == FALSE)
+			unlock(RIGHT_FORK, philo->parent_call, philo, odd);
+		else
+			unlock(OWN_FORK, philo->parent_call, philo, odd);
 		check_death_before_silence(philo, philo->state);
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+		if (odd == FALSE)
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+		else
+			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
 		print(philo, philo->state);
 	}
 	if (philo->state == DEAD && philo->parent_call->number_of_philo != 1)
-		unlock(BOTH_FORKS, philo->parent_call, philo);
+		unlock(BOTH_FORKS, philo->parent_call, philo, odd);
 	philo->state = EATING;
 }
 
 void	dying(t_philo *philo, unsigned long long int time_to_wait)
 {
+//	if (philo->parent_call->state == DEAD)
+//		return ;
 	ft_usleep(time_to_wait);
 	if (philo->parent_call->state == DEAD)
 		return ;
