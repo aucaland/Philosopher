@@ -219,8 +219,6 @@ int main(int argc, char **argv)
 	t_parent	parent;
 	t_philo		*philo;
 
-	if (argc < 5 || argc > 6) //TODO: create a check function for each arg
-		exit_philo(NULL, NULL, NBR_ARGUMENTS);
 	check_invalid_args(argc, argv);
 	ft_bzero(&parent, sizeof(t_parent));
 	parent.number_of_philo = ft_atoi(argv[1]);

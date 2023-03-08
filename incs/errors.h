@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:48:17 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/02 10:52:51 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/08 11:17:04 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ die] [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
 # define FAILED_ALLOC		"Allocation failed"
 # define NBR_MEAL			"Philos can't eat less than 0 time, obviously"
 # define FAILED_THREAD		"Failed to create a thread"
+# define INV_DIGIT			"Arguments must be positive or null numbers"
+# define NEGATIV_PHILO_NBR	"There must be at least 1 Philosopher"
 
 # define SLEEPING_MSG		"is sleeping"
 # define THINKING_MSG		"is thinking"
