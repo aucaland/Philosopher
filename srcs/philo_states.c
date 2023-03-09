@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_states.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/09 11:03:07 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/09 17:52:48 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ void	fork_repartition_odd_nbr_philo(t_philo *philo, int behavior)
 	if (behavior == FIRST_LOCK)
 	{
 		if (philo->odd == FALSE)
-			pthread_mutex_lock(&philo->parent_call->fork[philo->rfork]);
+			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
 		else
-			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
 	}
 	else if (behavior == SECOND_LOCK)
 	{
 		if (philo->odd == FALSE)
 			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
 		else
-			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
 	}
 }
 
@@ -114,7 +114,7 @@ t_bool	drop_the_fork(t_philo *philo)
 	else if (philo->parent_call->philo_are_odd == TRUE && philo->state == DEAD)
 	{
 		if (philo->odd == FALSE)
-			unlock(RIGHT_FORK, philo->parent_call, philo, philo->odd);
+			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
 		else
 			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
 		return (TRUE);//TODO : complete

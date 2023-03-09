@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/07 18:20:23 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/09 17:54:43 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	routine(t_philo *philo)
 		{
 			thinking(philo);
 			if (philo->philo_nbr % 2 == 0)
-				usleep(100);
+				ft_usleep(10);
 		}
 		if (philo->state == WAITING)
 			take_fork(philo);
@@ -139,9 +139,9 @@ void	unlock_both(t_parent *parent, t_philo *philo, t_bool odd, int behavior)
 	}
 	else if (behavior == PHILO_ARE_ODD)
 	{
-		if (odd == FALSE)
+		if (philo->odd == FALSE)
 		{
-			pthread_mutex_unlock(&parent->fork[philo->rfork]);
+			pthread_mutex_unlock(&parent->fork[philo->lfork]);
 			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
 		}
 		else
@@ -177,11 +177,6 @@ void	wait_threads(t_parent *parent)
 	i = 0;
 	while (i < parent->number_of_philo)
 	{
-//		if (parent->state == DEAD)
-//		{
-//			pthread_detach(parent->threads[i]);
-//			continue;
-//		}
 		pthread_join(parent->threads[i], NULL);
 		i++;
 	}
@@ -226,7 +221,7 @@ void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 			}
 			pthread_mutex_unlock(&parent->print);
 		}
-		usleep(10);
+		usleep(50);
 	}
 }
 
