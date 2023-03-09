@@ -49,6 +49,7 @@ typedef struct s_philo
 	unsigned long long 		last_eat;
 	int 		eat_count;
 	t_state		state;
+	t_bool		odd;
 	int			philo_nbr;
 }				t_philo;
 
@@ -56,6 +57,7 @@ typedef struct s_parent
 {
 	t_philo			*philo;
 	t_state			state;
+	t_bool			philo_are_odd;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 	pthread_mutex_t	state_mutex;

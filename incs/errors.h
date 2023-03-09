@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:48:17 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/08 11:17:04 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/09 10:41:48 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,9 @@ die] [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
 # define RIGHT_FORK			12
 # define OWN_FORK			13
 
+# define FIRST_LOCK			14
+# define SECOND_LOCK		15
+
+# define PHILO_ARE_ODD		16
+# define PHILO_ARE_EVEN		17
 #endif //ERRORS_H

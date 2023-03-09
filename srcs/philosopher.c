@@ -122,6 +122,36 @@ void	routine(t_philo *philo)
 	}
 }
 
+void	unlock_both(t_parent *parent, t_philo *philo, t_bool odd, int behavior)
+{
+	if (behavior == PHILO_ARE_EVEN)
+	{
+		if (odd == FALSE)
+		{
+			pthread_mutex_unlock(&parent->fork[philo->rfork]);
+			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+		}
+		else
+		{
+			pthread_mutex_unlock(&parent->fork[philo->lfork]);
+			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+		}
+	}
+	else if (behavior == PHILO_ARE_ODD)
+	{
+		if (odd == FALSE)
+		{
+			pthread_mutex_unlock(&parent->fork[philo->rfork]);
+			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+		}
+		else
+		{
+			pthread_mutex_unlock(&parent->fork[philo->lfork]);
+			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+		}
+	}
+}
+
 void	unlock(int which_forks, t_parent *parent, t_philo *philo, t_bool odd)
 {
 	if (which_forks == LEFT_FORK)
@@ -130,26 +160,12 @@ void	unlock(int which_forks, t_parent *parent, t_philo *philo, t_bool odd)
 		pthread_mutex_unlock(&parent->fork[philo->rfork]);
 	else if (which_forks == OWN_FORK)
 		pthread_mutex_unlock(&parent->fork[philo->own_fork]);
-	else if (which_forks == BOTH_FORKS)
-	{
-		if (odd == FALSE)
-		{
-//			dprintf(1, "1 for [%d]\n", philo->philo_nbr);
-			pthread_mutex_unlock(&parent->fork[philo->rfork]);
-//			dprintf(1, "2 for [%d]\n", philo->philo_nbr);
-			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
-//			dprintf(1, "3 for [%d]\n", philo->philo_nbr);
-		}
-		else
-		{
-//			dprintf(1, "4 for [%d]\n", philo->philo_nbr);
-			pthread_mutex_unlock(&parent->fork[philo->lfork]);
-//			dprintf(1, "5 for [%d]\n", philo->philo_nbr);
-			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
-//			dprintf(1, "6 for [%d]\n", philo->philo_nbr);
-		}
-
-	}
+	else if (philo->parent_call->philo_are_odd == FALSE && which_forks ==
+																	BOTH_FORKS)
+		unlock_both(parent, philo, odd, PHILO_ARE_EVEN);
+	else if (philo->parent_call->philo_are_odd == TRUE && which_forks ==
+														 BOTH_FORKS)
+		unlock_both(parent, philo, odd, PHILO_ARE_ODD);
 }
 
 

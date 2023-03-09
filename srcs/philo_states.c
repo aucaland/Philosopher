@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/07 18:08:58 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/09 11:03:07 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,47 +47,102 @@ void	sleeping(t_philo *philo)
 	}
 }
 
+void	fork_repartition_odd_nbr_philo(t_philo *philo, int behavior)
+{
+	if (behavior == FIRST_LOCK)
+	{
+		if (philo->odd == FALSE)
+			pthread_mutex_lock(&philo->parent_call->fork[philo->rfork]);
+		else
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+	}
+	else if (behavior == SECOND_LOCK)
+	{
+		if (philo->odd == FALSE)
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+		else
+			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+	}
+}
+
+void	fork_repartion_even_nbr_philo(t_philo *philo, int behavior)
+{
+	if (behavior == FIRST_LOCK)
+	{
+		if (philo->odd == FALSE)
+			pthread_mutex_lock(&philo->parent_call->fork[philo->rfork]);
+		else
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+	}
+	else if (behavior == SECOND_LOCK)
+	{
+		if (philo->odd == FALSE)
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+		else
+			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+	}
+}
+
+void	fork_repartition(t_philo *philo, int behavior)
+{
+	if (behavior == FIRST_LOCK)
+	{
+		if (philo->parent_call->philo_are_odd == FALSE)
+			fork_repartion_even_nbr_philo(philo, FIRST_LOCK);
+		else
+			fork_repartition_odd_nbr_philo(philo, FIRST_LOCK);
+	}
+	else if (behavior == SECOND_LOCK)
+	{
+		if (philo->parent_call->philo_are_odd == FALSE)
+			fork_repartion_even_nbr_philo(philo, SECOND_LOCK);
+		else
+			fork_repartition_odd_nbr_philo(philo, SECOND_LOCK);
+	}
+}
+
+t_bool	drop_the_fork(t_philo *philo)
+{
+	if (philo->parent_call->philo_are_odd == FALSE && philo->state == DEAD)
+	{
+		if (philo->odd == FALSE)
+			unlock(RIGHT_FORK, philo->parent_call, philo, philo->odd);
+		else
+			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
+		return (TRUE);
+	}
+	else if (philo->parent_call->philo_are_odd == TRUE && philo->state == DEAD)
+	{
+		if (philo->odd == FALSE)
+			unlock(RIGHT_FORK, philo->parent_call, philo, philo->odd);
+		else
+			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
+		return (TRUE);//TODO : complete
+	}
+	return (FALSE);
+}
+
 void	take_fork(t_philo *philo)
 {
 	if (philo->state == DEAD)
 		return ;
-	t_bool	odd;
-
-	odd = TRUE;
-	if (philo->philo_nbr % 2 == 0)
-		odd = FALSE;
-	if (odd == FALSE)
-		pthread_mutex_lock(&philo->parent_call->fork[philo->rfork]);
-	else
-		pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+	fork_repartition(philo, FIRST_LOCK);
 	print(philo, philo->state);
-	if (philo->state == DEAD)
-	{
-		if (odd == FALSE)
-			unlock(RIGHT_FORK, philo->parent_call, philo, odd);
-		else
-			unlock(OWN_FORK, philo->parent_call, philo, odd);
-		return;
-	}
+	if (drop_the_fork(philo) == TRUE)
+		return ;
 	else if (philo->parent_call->number_of_philo == 1)
 	{
 		philo->state = DEAD;
-		if (odd == FALSE)
-			unlock(RIGHT_FORK, philo->parent_call, philo, odd);
-		else
-			unlock(OWN_FORK, philo->parent_call, philo, odd);
+		drop_the_fork(philo);
 		check_death_before_silence(philo, philo->state);
 	}
 	else
 	{
-		if (odd == FALSE)
-			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
-		else
-			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+		fork_repartition(philo, SECOND_LOCK);
 		print(philo, philo->state);
 	}
 	if (philo->state == DEAD && philo->parent_call->number_of_philo != 1)
-		unlock(BOTH_FORKS, philo->parent_call, philo, odd);
+		unlock(BOTH_FORKS, philo->parent_call, philo, philo->odd);
 	philo->state = EATING;
 }
 

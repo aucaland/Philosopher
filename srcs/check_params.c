@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:43:55 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/08 11:17:04 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/08 11:20:42 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_bool valid_philo_number(int philo_number)
 
 void	check_invalid_args(int argc, char **argv)
 {
-	if (argc < 5 || argc > 6) //TODO: create a check function for each arg
+	if (argc < 5 || argc > 6)
 		exit_philo(NULL, NULL, NBR_ARGUMENTS);
 	if (is_valid_digit(argv + 1) == FALSE)
 		exit_philo(NULL, NULL, INV_DIGIT);
