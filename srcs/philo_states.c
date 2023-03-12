@@ -52,16 +52,16 @@ void	fork_repartition_odd_nbr_philo(t_philo *philo, int behavior)
 	if (behavior == FIRST_LOCK)
 	{
 		if (philo->odd == FALSE)
-			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+			pthread_mutex_lock(&philo->parent_call->fork[philo->rfork]);
 		else
-			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
+			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
 	}
 	else if (behavior == SECOND_LOCK)
 	{
 		if (philo->odd == FALSE)
 			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
 		else
-			pthread_mutex_lock(&philo->parent_call->fork[philo->own_fork]);
+			pthread_mutex_lock(&philo->parent_call->fork[philo->lfork]);
 	}
 }
 
@@ -114,7 +114,7 @@ t_bool	drop_the_fork(t_philo *philo)
 	else if (philo->parent_call->philo_are_odd == TRUE && philo->state == DEAD)
 	{
 		if (philo->odd == FALSE)
-			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
+			unlock(RIGHT_FORK, philo->parent_call, philo, philo->odd);
 		else
 			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
 		return (TRUE);//TODO : complete
