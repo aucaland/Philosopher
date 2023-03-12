@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 10:08:04 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/09 10:06:52 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/09 16:33:41 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	parent_init(t_parent *parent, t_philo *philo, char **argv, int argc)
 		parent->must_eat = ft_atoi(argv[5]);
 	else
 		parent->must_eat = -1;
-	parent->threads = ft_calloc(parent->number_of_philo + 1, sizeof(pthread_t));
+	parent->threads = ft_calloc(parent->number_of_philo, sizeof(pthread_t));
 	if (!parent->threads)
 		exit_philo(parent, &philo, FAILED_ALLOC);
-	parent->fork = ft_calloc(parent->number_of_philo + 1, sizeof
+	parent->fork = ft_calloc(parent->number_of_philo, sizeof
 																(pthread_mutex_t));
 	if (!parent->fork)
 		exit_philo(parent, &philo, FAILED_ALLOC);
