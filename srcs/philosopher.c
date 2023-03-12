@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/07 18:20:23 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/12 16:09:44 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,14 @@ void	unlock_both(t_parent *parent, t_philo *philo, t_bool odd, int behavior)
 	{
 		if (odd == FALSE)
 		{
-			pthread_mutex_unlock(&parent->fork[philo->rfork]);
+//			dprintf(2, "odd = false for philo[%d]\n", philo->philo_nbr);
 			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+			pthread_mutex_unlock(&parent->fork[philo->rfork]);
 		}
 		else
 		{
-			pthread_mutex_unlock(&parent->fork[philo->lfork]);
 			pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+			pthread_mutex_unlock(&parent->fork[philo->lfork]);
 		}
 	}
 }
@@ -203,9 +204,11 @@ void	destroy_threads(t_parent *parent)
 void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 {
 	int	i;
+	int count;
 	t_bool	running;
 
 	running = TRUE;
+	count = 0;
 	while (running)
 	{
 		i = -1;
@@ -216,6 +219,13 @@ void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 			{
 				if (parent->state == DEAD || parent->must_eat == philo[i].eat_count)
 				{
+					if (parent->must_eat == philo[i].eat_count)
+						count++;
+					if (count != parent->number_of_philo)
+					{
+						pthread_mutex_unlock(&parent->print);
+						continue ;
+					}
 					pthread_mutex_unlock(&parent->print);
 					return ;
 				}
@@ -226,7 +236,7 @@ void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 			}
 			pthread_mutex_unlock(&parent->print);
 		}
-		usleep(10);
+		ft_usleep(10);
 	}
 }
 
