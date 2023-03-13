@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/09 17:52:48 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:24:53 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	thinking(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
-	int odd;
+	int	odd;
 
 	odd = TRUE;
 	if (philo->philo_nbr % 2 == 0)
@@ -117,7 +117,7 @@ t_bool	drop_the_fork(t_philo *philo)
 			unlock(RIGHT_FORK, philo->parent_call, philo, philo->odd);
 		else
 			unlock(OWN_FORK, philo->parent_call, philo, philo->odd);
-		return (TRUE);//TODO : complete
+		return (TRUE);
 	}
 	return (FALSE);
 }
@@ -148,8 +148,6 @@ void	take_fork(t_philo *philo)
 
 void	dying(t_philo *philo, unsigned long long int time_to_wait)
 {
-//	if (philo->parent_call->state == DEAD)
-//		return ;
 	ft_usleep(time_to_wait);
 	pthread_mutex_lock(&philo->parent_call->state_mutex);
 	if (philo->parent_call->state == DEAD)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:43:55 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/08 11:20:42 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/13 11:16:11 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_bool	is_valid_digit(char **argv)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (argv[i])
@@ -32,7 +32,7 @@ t_bool	is_valid_digit(char **argv)
 	return (TRUE);
 }
 
-t_bool valid_philo_number(int philo_number)
+t_bool	valid_philo_number(int philo_number)
 {
 	if (philo_number < 1)
 		return (FALSE);

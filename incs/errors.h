@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:48:17 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/09 10:41:48 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/13 11:30:24 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef	ERRORS_H
-#define ERRORS_H
+#ifndef ERRORS_H
+# define ERRORS_H
 
 # include "philosophers.h"
 

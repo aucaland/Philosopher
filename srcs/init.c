@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 10:08:04 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/09 16:33:41 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:17:35 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	parent_init(t_parent *parent, t_philo *philo, char **argv, int argc)
 	parent->threads = ft_calloc(parent->number_of_philo, sizeof(pthread_t));
 	if (!parent->threads)
 		exit_philo(parent, &philo, FAILED_ALLOC);
-	parent->fork = ft_calloc(parent->number_of_philo, sizeof
-																(pthread_mutex_t));
+	parent->fork = ft_calloc(parent->number_of_philo, \
+												sizeof(pthread_mutex_t));
 	if (!parent->fork)
 		exit_philo(parent, &philo, FAILED_ALLOC);
 	parent->state = WAITING;
@@ -45,7 +45,7 @@ void	parent_init(t_parent *parent, t_philo *philo, char **argv, int argc)
 
 void	philo_init(t_parent *parent, t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < parent->number_of_philo)
@@ -84,7 +84,7 @@ void	init_threads(t_parent *parent, t_philo *philo)
 
 void	init_mutex(t_parent *parent)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	pthread_mutex_init(&parent->print, NULL);
@@ -92,8 +92,3 @@ void	init_mutex(t_parent *parent)
 	while (++i < parent->number_of_philo)
 		pthread_mutex_init(&parent->fork[i], NULL);
 }
-
-
-
-
-
