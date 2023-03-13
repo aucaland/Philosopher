@@ -2,7 +2,9 @@ NAME				= philo
 SRC_DIR				= srcs
 OBJ_DIR				= objs
 H_DIR				= incs
-SRC_NAME			= utils.c philosopher.c check_params.c exit.c philo_states.c init.c get.c
+SRC_NAME			= utils.c philosopher.c check_params.c exit.c \
+						philo_states.c init.c get.c check_death.c utils2.c \
+						unlock.c wait_and_destroy.c fork_handle.c
 INCS_NAME			= philosophers.h
 
 

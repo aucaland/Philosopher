@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 10:08:04 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/13 11:17:35 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:17:50 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ void	philo_spawn(t_philo	**philo, t_parent *parent)
 
 void	parent_init(t_parent *parent, t_philo *philo, char **argv, int argc)
 {
-	if (parent->number_of_philo % 2 == 0)
-		parent->philo_are_odd = FALSE;
-	else
-		parent->philo_are_odd = TRUE;
 	parent->time_to_die = ft_atoi(argv[2]);
 	parent->time_to_eat = ft_atoi(argv[3]);
 	parent->time_to_sleep = ft_atoi(argv[4]);

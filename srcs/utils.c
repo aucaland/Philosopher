@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:13:58 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/13 11:25:23 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:26:22 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,4 @@ void	*ft_free(void *ptr)
 	if (ptr)
 		free(ptr);
 	return (NULL);
-}
-
-void	ft_usleep(unsigned long long int time)
-{
-	unsigned long long	until;
-
-	until = timer() + time;
-	while (timer() < until)
-		usleep(100);
 }

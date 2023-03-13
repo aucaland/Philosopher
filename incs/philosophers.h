@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:31:01 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/13 11:36:32 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:22:12 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_parent
 {
 	t_philo							*philo;
 	t_state							state;
-	t_bool							philo_are_odd;
 	pthread_mutex_t					*fork;
 	pthread_mutex_t					print;
 	pthread_mutex_t					state_mutex;
@@ -82,6 +81,7 @@ void					*ft_calloc(size_t count, size_t size);
 void					*ft_free(void *ptr);
 void					ft_usleep(unsigned long long time);
 unsigned long long int	timer(void);
+char					*state_msg(t_state state);
 
 //		EXIT			////////////////////////////////////////////////////////
 void					exit_philo(t_parent *parent, t_philo **philo, \
@@ -89,8 +89,6 @@ void					exit_philo(t_parent *parent, t_philo **philo, \
 
 //		PHILOSOPHERS	////////////////////////////////////////////////////////
 void					print(t_philo *philo, t_state	state);
-void					unlock(int which_forks, t_parent *parent, t_philo \
-															*philo, t_bool ODD);
 void					routine(t_philo *philo);
 
 //		PHILO_STATES	////////////////////////////////////////////////////////
@@ -98,10 +96,8 @@ void					sleeping(t_philo *philo);
 void					eating(t_philo *philo);
 void					thinking(t_philo *philo);
 void					take_fork(t_philo *philo);
-void					check_death_before_silence(t_philo *philo, \
-																t_state state);
-char					*state_msg(t_state state);
 void					dying(t_philo *philo, unsigned long long time_to_wait);
+
 //		CHECK_INV_ARGS	////////////////////////////////////////////////////////
 void					check_invalid_args(int argc, char **argv);
 
@@ -117,4 +113,28 @@ void					init_mutex(t_parent *parent);
 unsigned long long		time_to_eat(t_philo *philo);
 unsigned long long		time_to_die(t_philo *philo);
 unsigned long long		time_to_sleep(t_philo *philo);
+
+//		CHECK_DEATH		////////////////////////////////////////////////////////
+t_bool					check_if_satisfied_or_dead(t_parent *parent, \
+										t_philo *philo, int *count, int *i);
+void					check_death(t_philo *philo);
+void					check_death_before_silence(t_philo *philo, \
+													t_state state);
+
+//		UNLOCK			////////////////////////////////////////////////////////
+void					unlock(int which_forks, t_parent *parent, \
+									t_philo *philo, t_bool odd);
+void					unlock_both(t_parent *parent, t_philo *philo, \
+									t_bool odd);
+
+//		DESTROY			////////////////////////////////////////////////////////
+void					destroy_threads(t_parent *parent);
+void					wait_threads(t_parent *parent);
+
+//		FORK			////////////////////////////////////////////////////////
+void					fork_repartition(t_philo *philo, int behavior);
+void					fork_repartion_even_nbr_philo(t_philo *philo, \
+														int behavior);
+t_bool					drop_the_fork(t_philo *philo);
+
 #endif //PHILOSOPHERS_H
