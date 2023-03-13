@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:41:44 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/13 12:55:08 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:51:47 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_bool	check_if_satisfied_or_dead(t_parent *parent, t_philo *philo, int
 	{
 		if (parent->must_eat == philo[*i].eat_count)
 			(*count)++;
-		if ((*count) != parent->number_of_philo)
+		if ((*count) != parent->number_of_philo && parent->must_eat != -1)
 		{
 			pthread_mutex_unlock(&parent->print);
 			return (FALSE);
@@ -74,5 +74,5 @@ t_bool	check_if_satisfied_or_dead(t_parent *parent, t_philo *philo, int
 	printf("%llu %d %s\n", timer(), philo[*i].philo_nbr, \
 														state_msg(DEAD));
 	pthread_mutex_unlock(&parent->print);
-	return (FALSE);
+	return (TRUE);
 }

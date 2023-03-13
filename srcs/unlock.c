@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:08:26 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/13 13:11:00 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:21:01 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	unlock_both(t_parent *parent, t_philo *philo, t_bool odd)
 	}
 	else
 	{
-		pthread_mutex_unlock(&parent->fork[philo->lfork]);
 		pthread_mutex_unlock(&parent->fork[philo->own_fork]);
+		pthread_mutex_unlock(&parent->fork[philo->lfork]);
 	}
 }
 
