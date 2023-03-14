@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/13 16:02:09 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:28:13 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print(t_philo *philo, t_state	state)
 		philo->eat_count++;
 	}
 	if (philo->state != DEAD)
-		printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(state));
+		printf("%llu %d %s\n", timer(), philo->philo_nbr + 1, state_msg(state));
 	pthread_mutex_unlock(&philo->parent_call->print);
 }
 
@@ -34,8 +34,9 @@ void	routine(t_philo *philo)
 		if (philo->state == THINKING)
 		{
 			thinking(philo);
-			if (philo->philo_nbr % 2 == 0)
-				ft_usleep(10);
+			if (philo->parent_call->philo_are_even == FALSE && philo->philo_nbr % 2
+			== 0)
+				ft_usleep(30);
 		}
 		if (philo->state == WAITING)
 			take_fork(philo);
@@ -68,7 +69,7 @@ void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 			}
 			pthread_mutex_unlock(&parent->print);
 		}
-		ft_usleep(10);
+		ft_usleep(20);
 	}
 }
 

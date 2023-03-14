@@ -63,6 +63,7 @@ typedef struct s_parent
 {
 	t_philo							*philo;
 	t_state							state;
+	t_bool							philo_are_even;
 	pthread_mutex_t					*fork;
 	pthread_mutex_t					print;
 	pthread_mutex_t					state_mutex;

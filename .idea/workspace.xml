@@ -12,7 +12,22 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b9ee2cc-7774-4e00-8091-2591d77730d5" name="Changes" comment="" />
+    <list default="true" id="7b9ee2cc-7774-4e00-8091-2591d77730d5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/objs/check_death.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/check_params.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/exit.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/fork_handle.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/get.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/init.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/philo_states.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/philosopher.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/unlock.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/utils.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/utils2.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/wait_and_destroy.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/philo" beforeDir="false" afterPath="$PROJECT_DIR$/philo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/philo_states.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/philo_states.c" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +70,40 @@
       <recent name="$PROJECT_DIR$/srcs" />
       <recent name="$PROJECT_DIR$/incs" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="Philosopher" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="Philosopher" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
