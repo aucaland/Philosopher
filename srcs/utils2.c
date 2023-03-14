@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:39:32 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/13 11:39:32 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:22:34 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@ void	ft_usleep(unsigned long long int time)
 {
 	unsigned long long	until;
 
+	if (time == 0)
+	{
+		usleep(10);
+		return ;
+	}
 	until = timer() + time;
 	while (timer() < until)
-		usleep(100);
+		usleep(50);
 }

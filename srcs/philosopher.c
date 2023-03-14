@@ -6,7 +6,7 @@
 /*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/14 17:28:13 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:30:35 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	check_while_waiting_fork(t_parent *parent, t_philo *philo)
 			}
 			pthread_mutex_unlock(&parent->print);
 		}
-		ft_usleep(20);
+		ft_usleep(5);
 	}
 }
 

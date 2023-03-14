@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_death.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:41:44 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/13 13:51:47 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:04:08 by aurel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	check_death(t_philo *philo)
 	{
 		philo->parent_call->state = DEAD;
 		philo->state = DEAD;
-		printf("%llu %d %s\n", timer(), philo->philo_nbr, state_msg(DEAD));
+		printf("%llu %d %s\n", timer(), philo->philo_nbr + 1, state_msg(DEAD));
 	}
 }
 
@@ -71,7 +71,7 @@ t_bool	check_if_satisfied_or_dead(t_parent *parent, t_philo *philo, int
 		return (TRUE);
 	}
 	parent->state = DEAD;
-	printf("%llu %d %s\n", timer(), philo[*i].philo_nbr, \
+	printf("%llu %d %s\n", timer(), philo[*i].philo_nbr + 1, \
 														state_msg(DEAD));
 	pthread_mutex_unlock(&parent->print);
 	return (TRUE);
