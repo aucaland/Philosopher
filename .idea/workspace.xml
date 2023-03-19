@@ -14,6 +14,19 @@
   <component name="ChangeListManager">
     <list default="true" id="7b9ee2cc-7774-4e00-8091-2591d77730d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/check_death.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/check_params.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/exit.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/fork_handle.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/get.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/init.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/philo_states.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/philosopher.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/unlock.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/utils.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/utils2.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/objs/wait_and_destroy.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/philo" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +102,8 @@
       <workItem from="1678810248811" duration="1136000" />
       <workItem from="1678811403218" duration="669000" />
       <workItem from="1678812215779" duration="12000" />
+      <workItem from="1678872073369" duration="104000" />
+      <workItem from="1678959565254" duration="296000" />
     </task>
     <servers />
   </component>
