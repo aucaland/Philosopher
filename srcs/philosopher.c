@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:31:11 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/14 19:30:35 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/20 15:10:23 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	routine(t_philo *philo)
 		if (philo->state == THINKING)
 		{
 			thinking(philo);
-			if (philo->parent_call->philo_are_even == FALSE && philo->philo_nbr % 2
-			== 0)
+			if (philo->parent_call->philo_are_even == FALSE \
+									&& philo->philo_nbr % 2 == 0)
 				ft_usleep(30);
 		}
 		if (philo->state == WAITING)

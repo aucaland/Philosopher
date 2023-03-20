@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_death.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:41:44 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/14 19:04:08 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/20 15:16:12 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,25 @@ void	check_death(t_philo *philo)
 t_bool	check_if_satisfied_or_dead(t_parent *parent, t_philo *philo, int
 *count, int *i)
 {
+	pthread_mutex_lock(&parent->state_mutex);
 	if (parent->state == DEAD || \
 										parent->must_eat == philo[*i].eat_count)
 	{
 		if (parent->must_eat == philo[*i].eat_count)
 			(*count)++;
-		if ((*count) != parent->number_of_philo && parent->must_eat != -1)
+		if ((*count) != parent->number_of_philo && parent->must_eat != -1 && parent->state != DEAD)
 		{
 			pthread_mutex_unlock(&parent->print);
+			pthread_mutex_unlock(&parent->state_mutex);
 			return (FALSE);
 		}
 		pthread_mutex_unlock(&parent->print);
+		pthread_mutex_unlock(&parent->state_mutex);
+
 		return (TRUE);
 	}
 	parent->state = DEAD;
+	pthread_mutex_unlock(&parent->state_mutex);
 	printf("%llu %d %s\n", timer(), philo[*i].philo_nbr + 1, \
 														state_msg(DEAD));
 	pthread_mutex_unlock(&parent->print);

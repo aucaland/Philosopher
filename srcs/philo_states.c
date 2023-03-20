@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_states.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 15:17:28 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/14 19:34:42 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/20 15:17:39 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	dying(t_philo *philo, unsigned long long int time_to_wait)
 		return ;
 	}
 	philo->parent_call->state = DEAD;
-	pthread_mutex_unlock(&philo->parent_call->state_mutex);
 	philo->state = DEAD;
+	pthread_mutex_unlock(&philo->parent_call->state_mutex);
 	pthread_mutex_lock(&philo->parent_call->print);
 	printf("%llu %d %s\n", timer(), philo->philo_nbr + 1, state_msg(DEAD));
 	ft_usleep(time_to_die(philo));
