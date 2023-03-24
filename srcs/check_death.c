@@ -6,7 +6,7 @@
 /*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:41:44 by aucaland          #+#    #+#             */
-/*   Updated: 2023/03/20 15:16:12 by aucaland         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:00:23 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_bool	check_if_satisfied_or_dead(t_parent *parent, t_philo *philo, int
 	{
 		if (parent->must_eat == philo[*i].eat_count)
 			(*count)++;
-		if ((*count) != parent->number_of_philo && parent->must_eat != -1 && parent->state != DEAD)
+		if ((*count) != parent->number_of_philo && parent->must_eat != -1 \
+													&& parent->state != DEAD)
 		{
 			pthread_mutex_unlock(&parent->print);
 			pthread_mutex_unlock(&parent->state_mutex);
@@ -71,7 +72,6 @@ t_bool	check_if_satisfied_or_dead(t_parent *parent, t_philo *philo, int
 		}
 		pthread_mutex_unlock(&parent->print);
 		pthread_mutex_unlock(&parent->state_mutex);
-
 		return (TRUE);
 	}
 	parent->state = DEAD;
