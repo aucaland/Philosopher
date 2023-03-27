@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurel <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aucaland <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 10:08:04 by aurel             #+#    #+#             */
-/*   Updated: 2023/03/14 17:23:26 by aurel            ###   ########.fr       */
+/*   Updated: 2023/03/27 15:13:09 by aucaland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,11 @@ void	init_mutex(t_parent *parent)
 	int	i;
 
 	i = -1;
-	pthread_mutex_init(&parent->print, NULL);
-	pthread_mutex_init(&parent->state_mutex, NULL);
+	if (pthread_mutex_init(&parent->print, NULL) == 0)
+		exit_philo(parent, NULL, FAILED_MUTEX);
+	if (pthread_mutex_init(&parent->state_mutex, NULL) == 0)
+		exit_philo(parent, NULL, FAILED_MUTEX);
 	while (++i < parent->number_of_philo)
-		pthread_mutex_init(&parent->fork[i], NULL);
+		if (pthread_mutex_init(&parent->fork[i], NULL) == 0)
+			exit_philo(parent, NULL, FAILED_MUTEX);
 }
