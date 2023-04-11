@@ -21,6 +21,7 @@ die] [time to eat] [time to sleep] [OPTIONAL:nbr of time each philo must eat] "
 # define FAILED_ALLOC		"Allocation failed"
 # define NBR_MEAL			"Philos can't eat less than 0 time, obviously"
 # define FAILED_THREAD		"Failed to create a thread"
+# define FAILED_MUTEX		"Failed Mutex creation"
 # define INV_DIGIT			"Arguments must be positive or null numbers"
 # define NEGATIV_PHILO_NBR	"There must be at least 1 Philosopher"
 
