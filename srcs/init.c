@@ -86,11 +86,11 @@ void	init_mutex(t_parent *parent)
 	int	i;
 
 	i = -1;
-	if (pthread_mutex_init(&parent->print, NULL) == 0)
+	if (pthread_mutex_init(&parent->print, NULL) != 0)
 		exit_philo(parent, NULL, FAILED_MUTEX);
-	if (pthread_mutex_init(&parent->state_mutex, NULL) == 0)
+	if (pthread_mutex_init(&parent->state_mutex, NULL) != 0)
 		exit_philo(parent, NULL, FAILED_MUTEX);
 	while (++i < parent->number_of_philo)
-		if (pthread_mutex_init(&parent->fork[i], NULL) == 0)
+		if (pthread_mutex_init(&parent->fork[i], NULL) != 0)
 			exit_philo(parent, NULL, FAILED_MUTEX);
 }
